@@ -1,4 +1,5 @@
 extern crate pkg_config;
+extern crate vcpkg;
 
 use std::env;
 use std::process::Command;
@@ -6,7 +7,13 @@ use std::process::Command;
 fn main() {
     if pkg_config::probe_library("mysqlclient").is_ok() {
         // pkg_config did everything for us
-        return
+        return;
+    } else if vcpkg::Config::new().statik(true).probe("mysqlclient").is_ok() {
+        // vcpkg did everything for us
+        return;
+    } else if vcpkg::Config::new().statik(false).probe("libmysql").is_ok() {
+        // vcpkg did everything for us
+        return;
     } else if let Ok(path) = env::var("MYSQLCLIENT_LIB_DIR") {
         println!("cargo:rustc-link-search=native={}", path);
     } else if let Some(path) = mysql_config_variable("pkglibdir") {
