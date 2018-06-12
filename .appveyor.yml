@@ -30,4 +30,8 @@ install:
 build: false
 
 test_script:
+  - echo %VCPKG_ROOT%
+  - echo %VCPKG_DEFAULT_TRIPLET%
+  - cargo install --force --git https://github.com/mcgoo/vcpkg-rs vcpkg_cli
+  - vcpkg_cli probe libmysql
   - cargo test
