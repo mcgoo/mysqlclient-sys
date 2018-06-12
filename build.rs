@@ -41,7 +41,7 @@ fn mysql_config_variable(var_name: &str) -> Option<String> {
 
 #[cfg(target_env = "msvc")]
 fn try_vcpkg() -> bool {
-    vcpkg::probe("libmysql").is_ok()
+    vcpkg::find_package("libmysql").is_ok()
 }
 
 #[cfg(not(target_env = "msvc"))]
